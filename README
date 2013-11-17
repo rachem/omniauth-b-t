@@ -1,0 +1,18 @@
+Rails3 Mongoid Omniauth
+========================
+
+This is an example Rails 3 application that combines OmniAuth with Mongoid. It uses the OmniAuth gem to manage authentication using a service provider such as Twitter or Facebook. MongoDB is used as a datastore with the Mongoid gem for quick development without schemas or migrations.
+
+________________________
+
+See the README file on GitHub
+
+For more information, please see the updated README file on GitHub:
+
+https://github.com/railsapps/rails3-mongoid-omniauth
+
+________________________
+
+MIT License
+
+http://www.opensource.org/licenses/mit-license

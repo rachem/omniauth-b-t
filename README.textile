@@ -1,0 +1,435 @@
+h1. !http://railsapps.github.io/images/rails-36x36.jpg(Rails Application for Omniauth with Mongoid)!  Rails App for Omniauth with Mongoid
+
+Rails 3.2 example application shows how to use Omniauth with Mongoid.
+
+* "OmniAuth":https://github.com/intridea/omniauth manages authentication using a service provider such as Twitter or Facebook.
+* MongoDB is used as a datastore with the "Mongoid":http://mongoid.org/  gem for quick development without schemas or migrations.
+
+Best of all, there's a "detailed tutorial":http://railsapps.github.io/tutorial-rails-mongoid-omniauth.html to show how it's built.
+
+* *Service Providers:* Facebook, Twitter, GitHub, LinkedIn, and "many more":https://github.com/intridea/omniauth.
+* *Gems:* Mongoid and OmniAuth plus optional jQuery, Haml, RSpec and Cucumber.
+
+You can build this application in only a few minutes using the "Rails Composer":http://railsapps.github.io/rails-composer/ tool.
+
+h2. !http://twitter-badges.s3.amazonaws.com/t_logo-a.png(Follow on Twitter)!:http://www.twitter.com/rails_apps Follow on Twitter
+
+Follow the project on Twitter: "@rails_apps":http://twitter.com/rails_apps. Please tweet some praise if you like what you've found.
+
+h2. Tutorial
+
+A complete tutorial is available:
+
+h4. "View the Tutorial":http://railsapps.github.io/tutorial-rails-mongoid-omniauth.html
+
+The tutorial documents each step to follow to create the application. Every step is documented concisely, so a complete beginner can create this application without any additional knowledge. However, no explanation is offered for any of the steps, so if you are a beginner, you’re advised to look for an introduction to Rails elsewhere. See a list of recommended resources for "Rails":http://railsapps.github.io/rails.html.
+
+h2. What Is Implemented -- and What Is Not
+
+This is a demonstration application that allows you to visit a home page and see a list of users. You can log in using a service provider such as Twitter and view a profile for each user. You can customize this app as you need.
+
+h4. Single Provider or Multiple Providers?
+
+This application is designed for sign-in with a *single provider*. For example, you may be creating an application just for Twitter users. Alternatively, it's possible to create an application that lets a user log in using *multiple providers*. For these more complex applications, see other examples and tutorials listed below.
+
+h4. When to use Devise?
+
+"Devise":http://github.com/plataformatec/devise provides authentication using username (or email address) and password. If you don't need the option of using a username/password, that is, if you wish to have all your users sign in using a service provider's account (such as Twitter or Facebook), there's no need to use Devise. Devise can be used in conjunction with the OmniAuth gem when you need to offer users the option of signing up for access to a website using an email address. For example, combine Devise with OmniAuth to accommodate users who want to log in with various service providers (Twitter, Facebook, etc.) as well as users who don't have external accounts and want to sign up with just an email address. See suggestions below for tutorials and examples that combine Devise with OmniAuth.
+
+h4. The Email Problem
+
+You don't need to ask a visitor for an email address when you build an application that allows a user to log in using a service provider such as Twitter or Facebook. You may consider that an advantage: if a user is logged in with Twitter or Facebook, they don't need to enter an email address and password to access your application. However, the lack of an email address may be a business drawback, if you want the opportunity to stay in contact with the user by email. Some service providers provide the user's email address to your application (Facebook). Some service providers only provide the email address at the user's option (GitHub supplies it if the user has provided a public email address). And other service providers do not provide the email address at all (Twitter, Meetup, LinkedIn).
+
+This example app shows how to request an email address from the user when he or she first requests access to your application. It is easy to remove this feature if you don't require it.
+
+h4. Similar Examples and Tutorials
+
+This is one in a series of Rails example apps and tutorials from the "RailsApps Project":http://railsapps.github.io/. See a list of additional "Rails examples, tutorials, and starter apps":http://railsapps.github.io/rails-examples-tutorials.html.
+
+|_. Author |_. Example App |_. Comments |
+| Ryan Bates | "Simple OmniAuth":http://railscasts.com/episodes/241-simple-omniauth | screencast |
+| Markus Proske | "OmniAuth Pure":https://communityguides.heroku.com/articles/16 | example and tutorial for OmniAuth with multiple providers |
+| Markus Proske | "Devise and OmniAuth":https://communityguides.heroku.com/articles/11 | example and tutorial for OmniAuth and Devise with multiple providers |
+| Daniel Kehoe | "Devise, RSpec, Cucumber":https://github.com/RailsApps/rails3-devise-rspec-cucumber | Detailed tutorial, app template, starter app, using SQLite |
+| Daniel Kehoe | "Devise, Mongoid":https://github.com/RailsApps/rails3-mongoid-devise | Detailed tutorial, app template, starter app, using MongoDB |
+| Fernando Tapia Rico | "Devise, OmniAuth, Mongoid":https://github.com/fertapric/rails3-mongoid-devise-omniauth | With tutorial, using MongoDB |
+
+h2. Obtaining API Keys
+
+Before installing the application, you may wish to contact the service provider you'll use to obtain any required API keys. The example assumes you will be using Twitter.
+
+h4. Twitter
+
+Visit "https://dev.twitter.com/apps/new":https://dev.twitter.com/apps/new to register your application. When you register your application, use the following values:
+
+|_. Application Website                    |_. Callback URL |_. Notes |
+| http://example.com | http://127.0.0.1:3000/ | http://localhost:3000/ doesn't work |
+
+h4. Facebook
+
+Visit "http://developers.facebook.com/setup":http://developers.facebook.com/setup to register your application.
+
+h4. GitHub
+
+Visit "https://github.com/settings/applications/new":https://github.com/settings/applications/new to register your application.
+
+h2. Dependencies
+
+Before running this app, you will need:
+
+* The Ruby language (version 1.9.3 or 2.0.0)
+* The Rails gem (version 3.2.13)
+* A working installation of "MongoDB":http://www.mongodb.org/ (version 2.0.0 or newer)
+
+See the article "Installing Rails":http://railsapps.github.io/installing-rails.html for advice about updating Rails and your development environment.
+
+h4. Installing MongoDB
+
+If you don't have MongoDB installed on your computer, you'll need to install it and set it up to be always running on your computer (run at launch).
+
+On Mac OS X, the easiest way to install MongoDB is to install "Homebrew":http://mxcl.github.com/homebrew/ and then run the following:
+
+<pre>
+brew install mongodb
+</pre>
+
+Homebrew will provide post-installation instructions to get MongoDB running. The last line of the installation output shows you the MongoDB install location (for example, */usr/local/Cellar/mongodb/1.8.0-x86_64*). You'll find the MongoDB configuration file there. After an installation using Homebrew, the default data directory will be */usr/local/var/mongodb*.
+
+On the Debian GNU/Linux operating system, as of March 2013, the latest stable version is MongoDB 2.0.0. With MongoDB 2.0.0, the Mongoid gem must be version 3.0.x. See the "Mongoid installation instructions":http://mongoid.org/en/mongoid/docs/installation.html#installation. Change your Gemfile to use an earlier Mongoid version:
+
+<pre>
+gem 'mongoid', '~> 3.0.1'
+</pre>
+
+h2. Getting the Application
+
+You have several options for getting the code.
+
+h3. Fork
+
+If you'd like to add features (or bug fixes) to improve the example application, you can fork the GitHub repo and "make pull requests":http://help.github.com/send-pull-requests/. Your code contributions are welcome!
+
+h3. Clone
+
+If you want to copy and customize the app with changes that are only useful for your own project, you can clone the GitHub repo. You'll need to search-and-replace the project name throughout the application. You probably should generate the app instead (see below). To clone:
+
+<pre>
+$ git clone git://github.com/RailsApps/rails3-mongoid-omniauth.git
+</pre>
+
+You'll need "git":http://git-scm.com/ on your machine. See "Rails and Git":http://railsapps.github.io/rails-git.html.
+
+h3. Generate
+
+If you want to use the project as a starter app, use the "Rails Composer":http://railsapps.github.io/rails-composer/ tool to generate a new version of the example app. You'll be able to give it your own project name when you generate the app. Generating the application gives you many additional options.
+
+To build the example application, run the command:
+
+<pre>
+$ rails new rails3-mongoid-omniauth -m https://raw.github.com/RailsApps/rails-composer/master/composer.rb -T -O
+</pre>
+
+Use the @-T -O@ flags to skip Test::Unit files and Active Record files.
+
+The @$@ character indicates a shell prompt; don't include it when you run the command.
+
+This creates a new Rails app named @rails3-mongoid-omniauth@ on your computer.
+
+You'll see a prompt:
+
+<pre>
+question  Install an example application?
+      1)  I want to build my own application
+      2)  membership/subscription/saas
+      3)  rails-prelaunch-signup
+      4)  rails3-bootstrap-devise-cancan
+      5)  rails3-devise-rspec-cucumber
+      6)  rails3-mongoid-devise
+      7)  rails3-mongoid-omniauth
+      8)  rails3-subdomains
+</pre>
+
+Choose *rails3-mongoid-omniauth*. The Rails Composer tool may give you other options (other choices may have been added since these notes were written).
+
+The application generator template will ask you for additional preferences:
+
+<pre>
+ question  Web server for development?
+       1)  WEBrick (default)
+       2)  Thin
+       3)  Unicorn
+       4)  Puma
+ question  Web server for production?
+       1)  Same as development
+       2)  Thin
+       3)  Unicorn
+       4)  Puma
+ question  Template engine?
+       1)  ERB
+       2)  Haml
+       3)  Slim
+   extras  Set a robots.txt file to ban spiders? (y/n)
+   extras  Use or create a project-specific rvm gemset? (y/n)
+   extras  Create a GitHub repository? (y/n)
+</pre>
+
+h4. Web Servers
+
+Use the default WEBrick server for convenience. If you plan to deploy to Heroku, select "thin" as your production webserver.
+
+h4. Template Engine
+
+The example application uses the default "ERB" Rails template engine. Optionally, you can use another template engine, such as Haml or Slim. See instructions for "Haml and Rails":http://railsapps.github.io/rails-haml.html.
+
+h4. Other Choices
+
+Set a robots.txt file to ban spiders if you want to keep your new site out of Google search results.
+
+It is a good idea to use "rvm":https://rvm.io/, the Ruby Version Manager, and create a project-specific rvm gemset (not available on Windows). See "Installing Rails":http://railsapps.github.io/installing-rails.html.
+
+If you choose to create a GitHub repository, the generator will prompt you for a GitHub username and password.
+
+h4. Troubleshooting
+
+If you get an error "OpenSSL certificate verify failed" or "Gem::RemoteFetcher::FetchError: SSL_connect" see the article "OpenSSL errors and Rails":http://railsapps.github.io/openssl-certificate-verify-failed.html.
+
+If you get an error like this:
+
+<pre>
+Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+    composer  Running 'after bundler' callbacks.
+The template [...] could not be loaded.
+Error: You have already activated ..., but your Gemfile requires ....
+Using bundle exec may solve this.
+</pre>
+
+It's due to conflicting gem versions. See the article "Rails Error: “You have already activated (…)”":http://railsapps.github.io/rails-error-you-have-already-activated.html.
+
+Other problems? Check the "issues":https://github.com/RailsApps/rails3-mongoid-omniauth/issues.
+
+h3. Edit the README
+
+If you're storing the app in a GitHub repository, please edit the README files to add a description of the app and your contact info. If you don't change the README, people will think I am the author of your version of the application.
+
+h2. Getting Started
+
+h3. Install the Required Gems
+
+Check the Gemfile to see which gems are used by this application.
+
+If you used the "Rails Composer":http://railsapps.github.io/rails-composer/ tool to generate the example app, the application template script has already run the @bundle install@ command.
+
+If not, you should run the @bundle install@ command to install the required gems on your computer:
+
+<pre>
+$ bundle install
+</pre>
+
+You can check which gems are installed on your computer with:
+
+<pre>
+$ gem list
+</pre>
+
+Keep in mind that you have installed these gems locally. When you deploy the app to another server, the same gems (and versions) must be available.
+
+I recommend using "rvm":https://rvm.io/, the Ruby Version Manager, to create a project-specific gemset for the application. See the article "Installing Rails":http://railsapps.github.io/installing-rails.html.
+
+h3. Configure Mongoid
+
+Mongoid provides access to the MongoDB database from Rails.
+
+You can use the default configuration found in the file *config/mongoid.yml*.
+
+If you want to see what's in your MongoDB databases, I recommend using the "MongoHub":http://mongohub.todayclose.com/ app (for Mac OS X).
+
+h3. Configure Email
+
+This example application doesn't send email messages. However, if you want your application to send email messages you must configure the application for your email account. See the article "Send Email with Rails":http://railsapps.github.io/rails-send-email.html.
+
+h3. Configuration File
+
+The application uses the "figaro gem":https://github.com/laserlemon/figaro to set environment variables. Credentials for your service provider account are set in the *config/application.yml* file. The *.gitignore* file prevents the *config/application.yml* file from being saved in the git repository so your credentials are kept private. See the article "Rails Environment Variables":http://railsapps.github.io/rails-environment-variables.html for more information.
+
+Modify the file *config/application.yml*:
+
+<pre>
+# Add account credentials and API keys here.
+# See http://railsapps.github.io/rails-environment-variables.html
+# This file should be listed in .gitignore to keep your settings secret!
+# Each entry sets a local environment variable and overrides ENV variables in the Unix shell.
+# For example, setting:
+# GMAIL_USERNAME: Your_Gmail_Username
+# makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"]
+# Add application configuration variables here, as shown below.
+#
+ADMIN_NAME: First User
+ADMIN_EMAIL: user@example.com
+ADMIN_PASSWORD: changeme
+OMNIAUTH_PROVIDER_KEY: Your_OmniAuth_Provider_Key
+OMNIAUTH_PROVIDER_SECRET: Your_OmniAuth_Provider_Secret
+</pre>
+
+The @ADMIN_NAME@, @ADMIN_EMAIL@, and @ADMIN_PASSWORD@ settings are not used in this application.
+
+You'll obtain an API key and secret token for the service provider you'll use. For most service providers, you need to register your application and obtain API keys to use their authentication service.
+
+All configuration values in the *config/application.yml* file are available anywhere in the application as environment variables. For example, @ENV["OMNIAUTH_PROVIDER_KEY"]@ will return the string "Your_OmniAuth_Provider_Key".
+
+If you prefer, you can delete the *config/application.yml* file and set each value as an environment variable in the Unix shell.
+
+h3. Set Up Configuration for OmniAuth
+
+This app uses OmniAuth for user management and authentication. OmniAuth is at "https://github.com/intridea/omniauth":https://github.com/intridea/omniauth.
+
+You'll need an OmniAuth initialization file *config/initializers/omniauth.rb* set up for the service provider you'll use. You'll set the API key and secret token in the *config/application.yml* file and initialize OmniAuth with the *config/initializers/omniauth.rb* file.
+
+For Twitter:
+
+<pre>
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :twitter, ENV['OMNIAUTH_PROVIDER_KEY'], ENV['OMNIAUTH_PROVIDER_SECRET']
+end
+</pre>
+
+For Facebook:
+
+<pre>
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :facebook, ENV['OMNIAUTH_PROVIDER_KEY'], ENV['OMNIAUTH_PROVIDER_SECRET']
+end
+</pre>
+
+For others, see "Module: OmniAuth::Strategies":http://intridea.github.com/omniauth/OmniAuth/Strategies.html.
+
+You can replace @ENV["OMNIAUTH_PROVIDER_KEY"]@ and @ENV["OMNIAUTH_PROVIDER_SECRET"]@ with your API key and secret token. However, committing the file to a public GitHub repository will expose your access codes. Instead, we advise to set the provider API key and secret token in the *config/application.yml* file. Recording sensitive information in the *config/initializers/omniauth.rb* file might expose it publicly on a GitHub repo. See the article "Rails Environment Variables":http://railsapps.github.io/rails-environment-variables.html for more information.
+
+h3. Set Up a Database Seed File
+
+The *db/seeds.rb* file initializes the database with default values. This application doesn't need to initialize the datastore. If you customize the application and wish to initialize the datastore, you can use the  *db/seeds.rb* file.
+
+h3. Set the Database
+
+If you add anything to the *db/seeds.rb* file, you can initialize the datastore by running the commands:
+
+<pre>
+
+$ rake db:seed
+</pre>
+
+Use @rake db:reseed@ if you want to empty and reseed the database. Or you can use @rake db:drop@ and @rake db:setup@. The equivalent task for Rails with ActiveRecord is @rake db:reset@ which will be available in Mongoid 4.0.
+
+Set the database for running tests:
+
+<pre>
+$ rake db:test:prepare
+</pre>
+
+If you’re not using "rvm":https://rvm.io/, the Ruby Version Manager, you should preface each rake command with @bundle exec@. You don’t need to use @bundle exec@ if you are using rvm version 1.11.0 or newer.
+
+h3. Change your Application's Secret Token
+
+If you've used the Rails Composer tool to generate the application, the application's secret token will be unique, just as with any Rails application generated with the @rails new@ command.
+
+However, if you've cloned the application directly from GitHub, it is crucial that you change the application's secret token before deploying your application in production mode. Otherwise, people could change their session information, and potentially access your site without your permission. Your secret token should be at least 30 characters long and completely random.
+
+Get a unique secret token:
+
+<pre>
+rake secret
+</pre>
+
+Edit your *config/initializers/secret_token.rb* file to add the secret token:
+
+<pre>
+Rails3MongoidOmniauth::Application.config.secret_token = '...some really long, random string...'
+</pre>
+
+h2. Test the App
+
+You can check that your app runs properly by entering the command
+
+@$ rails server@
+
+To see your application in action, open a browser window and navigate to "http://localhost:3000/":http://localhost:3000. You should see the default user listed on the home page. When you click on the user's name, you should be required to log in before seeing the user's profile page.
+
+If you test the app by starting the web server and then leave the server running while you install new gems, you’ll have to restart the server to see any changes. The same is true for changes to configuration files in the config folder. This can be confusing to new Rails developers because you can change files in the app folders without restarting the server. Stop the server each time after testing and you will avoid this issue.
+
+h2. Deploy to Heroku
+
+For your convenience, here are "instructions for deploying your app to Heroku":http://railsapps.github.io/rails-heroku-tutorial.html. Heroku provides low cost, easily configured Rails application hosting.
+
+h2. Testing
+
+No RSpec unit tests or Cucumber scenarios and step definitions are provided.
+
+After installing the application, run @rake -T@ to check that rake tasks for RSpec and Cucumber are available.
+
+Run @rake spec@ to run all RSpec tests.
+
+Run @rake cucumber@ (or more simply, @cucumber@) to run all Cucumber scenarios.
+
+Please send the author a message, create an issue, or submit a pull request if you can contribute  RSpec or Cucumber files.
+
+h2. Troubleshooting
+
+Problems? Check the "issues":https://github.com/RailsApps/rails3-mongoid-omniauth/issues.
+
+h4. Problems with  "Certificate Verify Failed"
+
+Are you getting an error "OpenSSL certificate verify failed" when you try to generate a new Rails app from an application template? See suggestions to resolve the error "Certificate Verify Failed":http://railsapps.github.io/openssl-certificate-verify-failed.html.
+
+h2. Documentation and Support
+
+The "tutorial":http://railsapps.github.io/tutorial-rails-mongoid-omniauth.html provides additional documentation.
+
+Ryan Bates offers a "Railscast on Simple OmniAuth":http://railscasts.com/episodes/241-simple-omniauth. You can find documentation for "OmniAuth":https://github.com/intridea/omniauth at "https://github.com/intridea/omniauth":https://github.com/intridea/omniauth. There is an active "OmniAuth mailing list":http://groups.google.com/group/omniauth and you can submit "OmniAuth issues":https://github.com/intridea/omniauth/issues at GitHub.
+
+h4. Issues
+
+Please create a "issue on GitHub":http://github.com/RailsApps/rails3-mongoid-omniauth/issues if you identify any problems or have suggestions for improvements.
+
+h4. Where to Get Help
+
+Your best source for help with problems is "Stack Overflow":http://stackoverflow.com/questions/tagged/ruby-on-rails-3. Your issue may have been encountered and addressed by others.
+
+You can also try "Rails Hotline":http://www.railshotline.com/, a free telephone hotline for Rails help staffed by volunteers.
+
+h2. Contributing
+
+If you make improvements to this application, please share with others.
+
+Send the author a message, create an "issue":http://github.com/RailsApps/rails3-mongoid-omniauth/issues, or fork the project and submit a pull request.
+
+If you add functionality to this application, create an alternative implementation, or build an application that is similar, please contact me and I'll add a note to the README so that others can find your work.
+
+h2. Credits
+
+Daniel Kehoe implemented the application and wrote the tutorial.
+
+Is the app useful to you? Follow the project on Twitter: "@rails_apps":http://twitter.com/rails_apps
+and tweet some praise. I'd love to know you were helped out by what I've put together.
+
+h2. MIT License
+
+"MIT License":http://www.opensource.org/licenses/mit-license
+
+Copyright © 2012-13 Daniel Kehoe
+
+h2. Useful Links
+
+|_. Getting Started |_. Articles |_. Tutorials |
+| "Learn Rails":http://learn-rails.com/ | "Twitter Bootstrap and Rails":http://railsapps.github.io/twitter-bootstrap-rails.html | "Rails and Bootstrap":http://railsapps.github.io/rails-bootstrap/ |
+| "Ruby and Rails":http://railsapps.github.io/ruby-and-rails.html | "Analytics for Rails":http://railsapps.github.io/rails-google-analytics.html | |
+| "What is Ruby on Rails?":http://railsapps.github.io/what-is-ruby-rails.html | "Heroku and Rails":http://railsapps.github.io/rails-heroku-tutorial.html | "Devise with CanCan and Twitter Bootstrap":https://tutorials.railsapps.org/rails3-bootstrap-devise-cancan |
+| "Rails Tutorial":https://tutorials.railsapps.org/rails-tutorial | "JavaScript and Rails":http://railsapps.github.io/rails-javascript-include-external.html | "Rails Membership Site with Stripe":https://tutorials.railsapps.org/rails-stripe-membership-saas |
+| "Installing Rails":http://railsapps.github.io/installing-rails.html | "Rails Environment Variables":http://railsapps.github.io/rails-environment-variables.html | "Rails Subscription Site with Recurly":https://tutorials.railsapps.org/rails-recurly-subscription-saas |
+| "Updating Rails":http://railsapps.github.io/updating-rails.html | "Git and Rails":http://railsapps.github.io/rails-git.html | "Startup Prelaunch Signup Application":http://railsapps.github.io/tutorial-rails-prelaunch-signup.html |
+| "Rails Composer":http://railsapps.github.io/rails-composer/ | "Email and Rails":http://railsapps.github.io/rails-send-email.html | "Devise with RSpec and Cucumber":http://railsapps.github.io/tutorial-rails-devise-rspec-cucumber.html |
+| "Rails Examples":http://railsapps.github.io/ | "Haml and Rails":http://railsapps.github.io/rails-haml.html | "Devise with Mongoid":http://railsapps.github.io/tutorial-rails-mongoid-devise.html |
+| "Rails Starter Apps":http://railsapps.github.io/rails-examples-tutorials.html | "Rails Application Layout":http://railsapps.github.io/rails-default-application-layout.html | "OmniAuth with Mongoid":http://railsapps.github.io/tutorial-rails-mongoid-omniauth.html |
+| | "HTML5 Boilerplate for Rails":http://railsapps.github.io/rails-html5-boilerplate.html | "Subdomains with Devise":http://railsapps.github.io/tutorial-rails-subdomains.html |
+| | "Example Gemfiles for Rails":http://railsapps.github.io/rails-3-2-example-gemfile.html | |
+| | "Rails Application Templates":http://railsapps.github.io/rails-application-templates.html | |
+
+!https://cruel-carlota.pagodabox.com/a45f291bb655bb6d51e2113bd38a0614(githalytics.com alpha)!
